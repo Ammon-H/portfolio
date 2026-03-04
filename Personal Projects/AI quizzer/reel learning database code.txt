@@ -1,0 +1,151 @@
+reel learning database code
+
+# This was my original code to be used in a database format before I had to change it to json
+
+
+
+
+# import streamlit as st
+# import requests
+# import json
+# from groq import Groq
+# import os
+# import sqlite3
+
+
+# # load environment variables from .env file when running locally
+# # you need to install python-dotenv: pip install python-dotenv
+# from dotenv import load_dotenv
+# load_dotenv()
+
+# from tavily import TavilyClient
+
+# # fetch keys from environment; load_dotenv() above ensures .env file is read
+# client = Groq(api_key=os.getenv('GROQ_API_KEY'))
+
+# # debug prints in case keys are missing
+# if client.api_key is None:
+#     print("WARNING: GROQ_API_KEY is not set in environment")
+
+
+# tavclient = TavilyClient(os.getenv("TAVILY_API_KEY"))  
+# if os.getenv("TAVILY_API_KEY") is None:
+#     print("WARNING: TAVILY_API_KEY is not set in environment")
+
+# def main():
+#     topic = "Health and Excercise"  
+#     chapters = generate_syllabus(topic)
+#     build_course(topic, chapters)
+
+# def _extract_message_content(response):
+#     """Return the text content of the first choice in a Groq response.
+#     The client sometimes returns ``response.choices`` as a list (newer versions)
+#     or as an object with a ``message`` attribute (older versions). This helper
+#     handles both so the rest of the code can be simple.
+#     """
+#     choices = response.choices
+#     if isinstance(choices, list):
+#         choice = choices[0]
+#     else:
+#         choice = choices
+#     return choice.message.content
+
+
+# def generate_syllabus(main_topic):
+
+#     syllabus_prompt = f"""
+#     You are a curriculum designer. Create a logical 10-step learning path for the topic: '{main_topic}'.
+#     Each step should be a specific sub-topic title.
+#     Output ONLY a JSON object with the key 'chapters' and a list of 10 strings.
+#     Example: {{"chapters": ["Introduction", "Key Figures", "Major Events", ...]}}
+#     """
+
+#     response = client.chat.completions.create(
+#         model="openai/gpt-oss-120b",
+#         messages=[{"role": "user", "content": syllabus_prompt}],
+#         response_format={"type": "json_object"}
+#     )
+    
+#     # This gives you your list of 10 titles
+#     raw = _extract_message_content(response)
+#     data = json.loads(raw)
+#     return data['chapters']
+
+
+# # 1. Creates or connects to the Table and Database.
+# def setup_db(curriculum_db):
+#     conn = sqlite3.connect(curriculum_db)
+#     cursor = conn.cursor()
+#     cursor.execute('''
+#         CREATE TABLE IF NOT EXISTS cards (
+#             id INTEGER PRIMARY KEY AUTOINCREMENT,
+#             topic TEXT,
+#             type TEXT, -- 'fact' or 'quiz'
+#             content TEXT -- JSON string of the fact or quiz object
+#         )
+#     ''')
+#     conn.commit()
+#     return conn
+
+# # 2. THE SYSTEM PROMPT (The Blueprint)- When called this variable constrains the LLM to output a JSON object with 5 facts and 1 quiz for each chapter. This is the format that the Frontend will expect when it retrieves the data from the database.
+# SYSTEM_PROMPT = """
+# You are an educator. Output a JSON object with a key 'items' containing 5 unique facts and 1 quiz about these 5 facts mentioned.
+# JSON Format: 
+# [
+#   {"type": "fact", "text": "The fact..."},
+#   {"type": "quiz", "question": "...", "options": ["A", "B", "C", "D"], "correct_index": 0}
+# ]
+# """
+
+# # 3. Use to generate the course content for each chapter and save it to the database
+# def build_course(topic, chapters):
+#     curriculum_db = topic.replace(" ", "_").lower() + "_curriculum.db"  # e.g., "health_and_exercise_curriculum.db"
+#     conn = setup_db(curriculum_db)
+#     cursor = conn.cursor() ### Ask Drew about this
+    
+#     for chapter in chapters:
+#         # Call the LLM for this specific chapter
+#         response = client.chat.completions.create(
+#             model="openai/gpt-oss-120b",
+#             messages=[
+#                 {"role": "system", "content": SYSTEM_PROMPT},
+#                 {"role": "user", "content": f"Topic: {topic}. Chapter: {chapter}"}
+#             ],
+#             response_format={"type": "json_object"}
+#         )
+        
+#         # Parse the AI's response
+#         rawdata = json.loads(_extract_message_content(response))  # use helper above
+#         # some model responses are a dict with key 'items'; others return the
+#         # list directly. handle both gracefully.
+#         if isinstance(rawdata, dict):
+#             items = rawdata.get('items', [])
+#         elif isinstance(rawdata, list):
+#             items = rawdata
+#         else:
+#             items = []
+
+#         # Save each item to the Database
+#         for item in items:
+#             cursor.execute(
+#                 "INSERT INTO cards (topic, type, content) VALUES (?, ?, ?)",
+#                 (topic, item['type'], json.dumps(item))
+#             )
+#         conn.commit()
+#         print(f"Success! Course for {topic} is ready.")
+
+# ## This retrieves the cards for a given topic and formats them for the Frontend to use immediately.
+# def get_cards_for_topic(topic, curriculum_db):
+#     conn = sqlite3.connect(curriculum_db)
+#     cursor = conn.cursor()
+#     cursor.execute("SELECT type, content FROM cards WHERE topic = ?", (topic,))
+#     rows = cursor.fetchall()
+    
+#     # Format it so the Frontend can use it immediately
+#     curriculum = []
+#     for row in rows:
+#         item = json.loads(row)
+#         curriculum.append(item)
+#     return curriculum
+# if __name__ == "__main__":
+#     main()
