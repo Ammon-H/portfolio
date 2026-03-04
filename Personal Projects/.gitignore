@@ -1,0 +1,21 @@
+# --- Operating System Files ---
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# --- Editor/IDE Files ---
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# --- Logs and Databases ---
+*.log
+*.sqlite
+
+# --- Environments & Secrets (CRITICAL) ---
+.env
+.env.sample
+venv/
+env/
+node_modules/
