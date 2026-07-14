@@ -1,0 +1,25 @@
+{
+  "name": "sprint-04-cse310",
+  "version": "1.0.0",
+  "description": "",
+  "main": "calc.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/AmmonjHorton/Sprint-04-CSE310.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "module",
+  "types": "./calc.d.ts",
+  "bugs": {
+    "url": "https://github.com/AmmonjHorton/Sprint-04-CSE310/issues"
+  },
+  "homepage": "https://github.com/AmmonjHorton/Sprint-04-CSE310#readme",
+  "devDependencies": {
+    "@types/node": "^26.1.1"
+  }
+}
