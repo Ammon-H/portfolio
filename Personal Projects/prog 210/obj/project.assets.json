@@ -13,11 +13,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\ammon\\Programming_with_classes\\Programming-w-classes\\final\\FinalProject\\FinalProject.csproj",
+      "projectUniqueName": "C:\\Users\\ammon\\portfolio\\Personal Projects\\prog 210\\FinalProject.csproj",
       "projectName": "FinalProject",
-      "projectPath": "C:\\Users\\ammon\\Programming_with_classes\\Programming-w-classes\\final\\FinalProject\\FinalProject.csproj",
+      "projectPath": "C:\\Users\\ammon\\portfolio\\Personal Projects\\prog 210\\FinalProject.csproj",
       "packagesPath": "C:\\Users\\ammon\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\ammon\\Programming_with_classes\\Programming-w-classes\\final\\FinalProject\\obj\\",
+      "outputPath": "C:\\Users\\ammon\\portfolio\\Personal Projects\\prog 210\\obj\\",
       "projectStyle": "PackageReference",
       "configFilePaths": [
         "C:\\Users\\ammon\\AppData\\Roaming\\NuGet\\NuGet.Config"
@@ -26,6 +26,7 @@
         "net8.0"
       ],
       "sources": {
+        "C:\\Program Files\\dotnet\\library-packs": {},
         "https://api.nuget.org/v3/index.json": {}
       },
       "frameworks": {
