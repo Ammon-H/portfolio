@@ -1,0 +1,62 @@
+﻿<Window x:Class="CustomQRCodeGenerator.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="Custom QR Code Desktop Generator" Height="450" Width="700" 
+        Background="#F3F4F6">
+    <Grid Margin="20">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="2.5*"/>
+            <ColumnDefinition Width="2*"/>
+        </Grid.ColumnDefinitions>
+
+        <StackPanel Grid.Column="0" Margin="0,0,20,0">
+            <TextBlock Text="Custom QR Code Generator" FontSize="22" FontWeight="Bold" Foreground="#1F2937" Margin="0,0,0,15"/>
+            
+            <TextBlock Text="Data / URL to Encode:" FontWeight="SemiBold" Margin="0,5,0,2"/>
+            <TextBox x:Name="TxtInput" Height="60" TextWrapping="Wrap" VerticalScrollBarVisibility="Auto" Padding="5" Margin="0,0,0,15" TextChanged="OnParametersChanged"/>
+
+            <TextBlock Text="Error Correction Level (ECC):" FontWeight="SemiBold" Margin="0,5,0,2"/>
+            <ComboBox x:Name="CmbEcc" SelectedIndex="1" Margin="0,0,0,15" SelectionChanged="OnParametersChanged">
+                <ComboBoxItem Content="Low (L) - ~7% recovery"/>
+                <ComboBoxItem Content="Medium (M) - ~15% recovery"/>
+                <ComboBoxItem Content="Quartile (Q) - ~25% recovery"/>
+                <ComboBoxItem Content="High (H) - ~30% recovery"/>
+            </ComboBox>
+
+            <Grid Margin="0,0,0,20">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="*"/>
+                </Grid.ColumnDefinitions>
+                
+                <StackPanel Grid.Column="0" Margin="0,0,10,0">
+                    <TextBlock Text="QR Code Color:" FontWeight="SemiBold"/>
+                    <ComboBox x:Name="CmbDarkColor" SelectedIndex="0" SelectionChanged="OnParametersChanged">
+                        <ComboBoxItem Content="Black"/>
+                        <ComboBoxItem Content="Dark Blue"/>
+                        <ComboBoxItem Content="Dark Green"/>
+                        <ComboBoxItem Content="Dark Red"/>
+                    </ComboBox>
+                </StackPanel>
+
+                <StackPanel Grid.Column="1" Margin="10,0,0,0">
+                    <TextBlock Text="Background Color:" FontWeight="SemiBold"/>
+                    <ComboBox x:Name="CmbLightColor" SelectedIndex="0" SelectionChanged="OnParametersChanged">
+                        <ComboBoxItem Content="White"/>
+                        <ComboBoxItem Content="Light Gray"/>
+                        <ComboBoxItem Content="Transparent"/>
+                    </ComboBox>
+                </StackPanel>
+            </Grid>
+
+            <Button Content="Export QR Code as PNG" Height="40" Background="#2563EB" Foreground="White" FontWeight="Bold" Click="BtnExport_Click"/>
+        </StackPanel>
+
+        <Border Grid.Column="1" BorderBrush="#D1D5DB" BorderThickness="2" CornerRadius="8" Background="White" Padding="10">
+            <Grid>
+                <TextBlock x:Name="TxtPlaceholder" Text="Enter text to see live preview" HorizontalAlignment="Center" VerticalAlignment="Center" Foreground="#9CA3AF" FontSize="14"/>
+                <Image x:Name="ImgPreview" Stretch="Uniform" RenderOptions.BitmapScalingMode="NearestNeighbor"/>
+            </Grid>
+        </Border>
+    </Grid>
+</Window>
